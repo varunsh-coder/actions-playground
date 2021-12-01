@@ -16,7 +16,7 @@ jobs:
           date +%s > report.txt
           git commit -am "Modify tracked file during workflow"
           date +%s > new-report.txt
-          git add -A
+          git add .
           git commit -m "Add untracked file during workflow"
       - name: Uncommitted change
         run: date +%s > report.txt
