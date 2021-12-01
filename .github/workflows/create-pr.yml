@@ -3,12 +3,17 @@ name: create pr
 on:      
  workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   create-pr:
+    permissions:
+      contents: write # for peter-evans/create-pull-request to create branch
+      pull-requests: write # for peter-evans/create-pull-request to create a PR
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@main
-      - uses: actions/checkout@v2
+      - uses: step-security/harden-runner@dea7bd51ad9ea3da09c16c60ecd5b9de22cb8e92
+      - uses: actions/checkout@629c2de402a417ea7690ca6ce3f33229e27606a5
       - name: Create commits
         run: |
           git config user.name 'Varun'
@@ -19,4 +24,4 @@ jobs:
       - name: Uncommitted change
         run: date +%s > report.txt
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@67df31e08a133c6a77008b89689677067fef169e
