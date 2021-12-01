@@ -2,19 +2,24 @@ name: Automatic Rebase
 on:
   issue_comment:
     types: [created]
+permissions: read-all
+
 jobs:
   rebase:
+    permissions:
+      contents: write # for cirrus-actions/rebase to push code to rebase
+      pull-requests: read # for cirrus-actions/rebase to get info about PR
     name: Rebase
     if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/rebase')
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@main
+      - uses: step-security/harden-runner@dea7bd51ad9ea3da09c16c60ecd5b9de22cb8e92
       - name: Checkout the latest code
-        uses: actions/checkout@v2
+        uses: actions/checkout@629c2de402a417ea7690ca6ce3f33229e27606a5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
       - name: Automatic Rebase
-        uses: cirrus-actions/rebase@1.4
+        uses: cirrus-actions/rebase@7cea12ac34ab078fa37e87798d8986185afa7bf2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
