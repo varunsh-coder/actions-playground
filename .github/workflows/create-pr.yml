@@ -3,8 +3,9 @@ name: create pr
 on:      
  workflow_dispatch:
 
-job:
+jobs:
   create-pr:
+    runs-on: ubuntu-latest
     steps:
       - uses: step-security@harden-runner@main
       - uses: actions/checkout@v2
