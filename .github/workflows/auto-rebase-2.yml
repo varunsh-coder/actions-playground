@@ -11,6 +11,8 @@ jobs:
     steps:
     - uses: step-security/harden-runner@main
     - uses: actions/checkout@v2
+      with:
+       fetch-depth: 0
     - uses: ljharb/rebase@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
