@@ -7,7 +7,7 @@ permissions: read-all
 jobs:
   _:
     permissions:
-      contents: write # for ljharb/rebase to push code to rebase
+      contents: read # for ljharb/rebase to push code to rebase
       pull-requests: read # for ljharb/rebase to get info about PR
     name: "Automatic Rebase"
 
