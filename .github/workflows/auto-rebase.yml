@@ -7,7 +7,7 @@ permissions: read-all
 jobs:
   rebase:
     permissions:
-      contents: write # for cirrus-actions/rebase to push code to rebase
+      contents: read # for cirrus-actions/rebase to push code to rebase
       pull-requests: read # for cirrus-actions/rebase to get info about PR
     name: Rebase
     if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/rebase')
