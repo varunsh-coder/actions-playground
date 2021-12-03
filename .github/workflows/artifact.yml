@@ -1,0 +1,16 @@
+name: artifact
+
+on:      
+ workflow_dispatch:
+
+jobs:
+  artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - run: mkdir -p path/to/artifact
+      - run: echo hello > path/to/artifact/world.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: path/to/artifact/world.txt
+      - uses: actions/download-artifact@v2
