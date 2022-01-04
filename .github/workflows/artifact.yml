@@ -6,7 +6,7 @@ on:
 jobs:
   artifact:
     runs-on: ubuntu-latest
-    container: node:10.16-jessie
+    container: busybox:latest
     steps:
       - run: nslookup host.docker.internal
       - run: mkdir -p path/to/artifact
