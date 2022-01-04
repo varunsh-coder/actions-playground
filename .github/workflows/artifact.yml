@@ -6,6 +6,7 @@ on:
 jobs:
   artifact:
     runs-on: ubuntu-latest
+    container: node:10.16-jessie
     steps:
       - uses: step-security/harden-runner@main
       - run: nslookup host.docker.internal
