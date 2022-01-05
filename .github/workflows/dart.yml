@@ -13,6 +13,7 @@ on:
 
 jobs:
   build:
+    permissions: none
     runs-on: ubuntu-latest
 
     steps:
