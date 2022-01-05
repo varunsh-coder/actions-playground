@@ -13,7 +13,8 @@ on:
 
 jobs:
   build:
-    permissions: none
+    permissions: 
+      contents: none
     runs-on: ubuntu-latest
 
     steps:
