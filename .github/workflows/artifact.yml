@@ -6,8 +6,16 @@ on:
 jobs:
   artifact:
     runs-on: ubuntu-latest
-    container: busybox:latest
     steps:
+      - uses: actions/checkout@v2
+      - uses: step-security/harden-runner@v1
+        with: 
+          egress-policy: audit
+      - uses: actions/cache@v2
+        with:
+          path: | 
+            readme.md
+          key: 'test'
       - run: nslookup host.docker.internal
       - run: mkdir -p path/to/artifact
       - run: echo hello > path/to/artifact/world.txt
