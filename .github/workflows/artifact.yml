@@ -1,6 +1,7 @@
 name: artifact
 
-on:      
+on:
+ push:
  workflow_dispatch:
 
 jobs:
