@@ -1,33 +1,30 @@
-name: artifact
+# This is a sample GitHub Actions workflow
+# Click on the "Secure Workflow" button to automatically secure it
+# Secure Workflow is open source @ https://github.com/step-security/secure-workflows
 
+name: Lint
 on:
- push:
- workflow_dispatch:
-
+  pull_request:
+    branches: main
+  workflow_dispatch:
+    
 permissions: read-all
 
 jobs:
-  artifact:
-    runs-on: ubuntu-latest
+  lint:
+    permissions:
+      actions: write # for technote-space/auto-cancel-redundant-workflow to cancel workflows
+      contents: read # for actions/checkout to fetch code
+      statuses: write # for github/super-linter to mark status of each linter run
+    runs-on: ubuntu-latest  
     steps:
-      - uses: actions/checkout@v2
-      - uses: step-security/harden-runner@v1
-        with: 
-          allowed-endpoints:
-            95s5acprodeus1file6.blob.core.windows.net:443
-            artifactcache.actions.githubusercontent.com:443
-            github.com:443
-            pipelines.actions.githubusercontent.com:443
-      - uses: actions/cache@v2
+      - name: Harden Runner
+        uses: step-security/harden-runner@14dc64f30986eaa2ad2dddcec073f5aab18e5a24 # v1
         with:
-          path: | 
-            readme.md
-          key: 'test'
-      - run: nslookup host.docker.internal
-      - run: mkdir -p path/to/artifact
-      - run: echo hello > path/to/artifact/world.txt
-      - uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: path/to/artifact/world.txt
-      - uses: actions/download-artifact@v2
+          egress-policy: audit
+      - uses: technote-space/auto-cancel-redundant-workflow@7d35aba30420fc2368f8aeed50371e99e7fa3239 # v1
+      - uses: actions/checkout@629c2de402a417ea7690ca6ce3f33229e27606a5 # v2
+      - uses: github/super-linter@34b2f8032d759425f6b42ea2e52231b33ae05401 # v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true';
