@@ -23,7 +23,7 @@ jobs:
           path: | 
             readme.md
           key: 'test'
-      - run: nslookup host.docker.internal
+      - run: sudo ip6tables -L -n
       - run: mkdir -p path/to/artifact
       - run: echo hello > path/to/artifact/world.txt
       - uses: actions/upload-artifact@v2
