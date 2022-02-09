@@ -21,3 +21,4 @@ jobs:
      with:
        sanitizer: ${{ matrix.sanitizer }}
        upload-build: true
+       github-token: ${{ secrets.GITHUB_TOKEN }}
