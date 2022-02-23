@@ -10,14 +10,9 @@ jobs:
   artifact:
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@v1
-        with: 
-         allowed-endpoints:
-           95s5acprodeus1file6.blob.core.windows.net:443
-           artifactcache.actions.githubusercontent.com:443
-           github.com:443
-           pipelines.actions.githubusercontent.com:443
-      - run: sudo systemd-resolve --statistics
+      - run: sudo killall -USR1 systemd-resolved
+      - run: sudo journalctl -u systemd-resolved > ~/resolved.txt
+      - run: cat ~/resolved.txt
       #- run: sudo resolvectl flush-caches
       #- run: sudo systemd-resolve --statistics
       - uses: actions/checkout@v2
