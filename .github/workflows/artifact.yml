@@ -10,7 +10,9 @@ jobs:
   artifact:
     runs-on: ubuntu-latest
     steps:
+      - run: sudo systemd-resolve --statistics
       - uses: actions/checkout@v2
+      - run: sudo systemd-resolve --statistics
       - uses: step-security/harden-runner@v1
         with: 
           allowed-endpoints:
