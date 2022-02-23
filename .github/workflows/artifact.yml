@@ -24,6 +24,7 @@ jobs:
           path: | 
             readme.md
           key: 'test'
+      - run: curl -X GET https://github.com
       - run: sudo systemd-resolve --statistics
       - run: sudo ip6tables -L -n
       - run: mkdir -p path/to/artifact
