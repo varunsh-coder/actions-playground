@@ -27,7 +27,7 @@ jobs:
     steps:
       # Fetch project source
       - name: Harden Runner
-        uses: step-security/harden-runner@c13871cb1817ca5e9249b5418c939070d69e47e1
+        uses: step-security/harden-runner@56662b567628524f58cff97ca1c30371d0015983
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
