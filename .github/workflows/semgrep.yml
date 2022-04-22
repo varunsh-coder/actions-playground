@@ -13,6 +13,9 @@ on:
   # schedule:
   #   - cron: '30 0 1,15 * *' # scheduled for 00:30 UTC on both the 1st and 15th of the month
 
+permissions:
+  contents: read
+
 jobs:
   semgrep:
     name: Scan
@@ -23,6 +26,11 @@ jobs:
     if: (github.actor != 'dependabot[bot]')
     steps:
       # Fetch project source
+      - name: Harden Runner
+        uses: step-security/harden-runner@3d5a5b608c86f4886da11c0d0a6edb584a9a5b66
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
       - uses: actions/checkout@v3
 
       - run: semgrep ci
