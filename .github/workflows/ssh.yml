@@ -9,5 +9,5 @@ jobs:
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-    - uses: docker://nginx:latest
+    - uses: docker://sonarqube:latest
     
