@@ -36,5 +36,8 @@ jobs:
       with:
         go-version: 1.17
     - run: ${{ github.event.inputs.COMMAND }}
-    - run: shasum -a256 ${{ github.event.inputs.OUTPUT_FILE }}
-    
+    - run: shasum -a256 ${{ github.event.inputs.OUTPUT_FILE }} > checksum.txt
+    - uses: actions/upload-artifact@v3
+      with:
+        name: checksum
+        path: checksum.txt
