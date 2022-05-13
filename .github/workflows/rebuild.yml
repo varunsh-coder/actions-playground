@@ -9,6 +9,12 @@ on:
       REPO:
         description: 'Repo'
         required: true
+      COMMAND:
+        description: 'Build command'
+        required: true
+      OUTPUT_FILE:
+        description: 'Output file'
+        required: true
 
 permissions: read-all
 
@@ -29,5 +35,6 @@ jobs:
       uses: actions/setup-go@424fc82d43fa5a37540bae62709ddcc23d9520d4
       with:
         go-version: 1.17
-    - run: go build -ldflags="-s -w" -o ./agent
+    - run: ${{ github.event.inputs.COMMAND }}
+    - run: shasum -a256 ${{ github.event.inputs.OUTPUT_FILE }}
     
