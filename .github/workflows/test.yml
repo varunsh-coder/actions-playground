@@ -8,9 +8,5 @@ jobs:
   lint:
     runs-on: ubuntu-latest  
     steps:
-      - uses: technote-space/auto-cancel-redundant-workflow@v1
-      - uses: actions/checkout@v2
-      - uses: github/super-linter@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_ERRORS: true';
+      - run: |
+          curl -X GET https://artifacts.codacy.com
