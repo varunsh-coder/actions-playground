@@ -14,6 +14,6 @@ jobs:
             artifacts.codacy.com:443
       - uses: juliangruber/sleep-action@v1
         with:
-          time: 70s
+          time: 130s
       - run: |
           curl -X GET https://artifacts.codacy.com
