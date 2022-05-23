@@ -12,5 +12,8 @@ jobs:
         with:
           allowed-endpoints: 
             artifacts.codacy.com:443
+      - uses: juliangruber/sleep-action@v1
+        with:
+          time: 70s
       - run: |
           curl -X GET https://artifacts.codacy.com
