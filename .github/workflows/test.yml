@@ -8,5 +8,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest  
     steps:
+      - uses: step-security/harden-runner@v1
+        with:
+          allowed-endpoints: 
+            artifacts.codacy.com:443
       - run: |
           curl -X GET https://artifacts.codacy.com
