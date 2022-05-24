@@ -12,6 +12,7 @@ jobs:
         with:
           allowed-endpoints: 
             github.com:443
+            objects.githubusercontent.com:443
             raw.githubusercontent.com:443
             artifacts.codacy.com:443
       - uses: juliangruber/sleep-action@v1
