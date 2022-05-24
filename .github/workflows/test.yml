@@ -17,3 +17,8 @@ jobs:
           time: 130s
       - run: |
           curl -X GET https://artifacts.codacy.com
+      - name: Publish to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        continue-on-error: true
