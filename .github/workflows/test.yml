@@ -17,7 +17,7 @@ jobs:
             artifacts.codacy.com:443
       - uses: juliangruber/sleep-action@v1
         with:
-          time: 130s
+          time: 60s
       - run: |
           curl -X GET https://artifacts.codacy.com
       - name: Publish to Codacy
@@ -25,3 +25,11 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
         continue-on-error: true
+      - uses: juliangruber/sleep-action@v1
+        with:
+          time: 60s
+      - name: Publish to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        continue-on-error: true  
