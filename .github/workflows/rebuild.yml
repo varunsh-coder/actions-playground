@@ -49,5 +49,6 @@ jobs:
         echo $sha
         if [[ "$sha" != "${{ github.event.inputs.EXPECTED_CHECKSUM }}" ]]
         then
-          echo "Checksum not as expected"          
+          echo "Checksum not as expected"
+          exit 1
         fi
