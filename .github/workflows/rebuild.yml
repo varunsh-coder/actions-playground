@@ -18,6 +18,9 @@ on:
       OUTPUT_FILE:
         description: 'Output file'
         required: true
+      EXPECTED_CHECKSUM:
+        description: 'Expected checksum'
+        required: true
 
 permissions: read-all
 
@@ -40,8 +43,11 @@ jobs:
         go-version: ${{ github.event.inputs.GO_VERSION }}
         
     - run: ${{ github.event.inputs.COMMAND }}
-    - run: shasum -a256 ${{ github.event.inputs.OUTPUT_FILE }} > checksum.txt
-    - uses: actions/upload-artifact@v3
-      with:
-        name: checksum
-        path: checksum.txt
+    - run: | 
+        shasum -a256 ${{ github.event.inputs.OUTPUT_FILE }} > checksum.txt
+        sha=($(shasum -a256 ${{ github.event.inputs.OUTPUT_FILE }}))
+        echo $sha
+        if [[ "$sha" != "${{ github.event.inputs.EXPECTED_CHECKSUM }}" ]]
+        then
+          echo "Checksum not as expected"          
+        fi
