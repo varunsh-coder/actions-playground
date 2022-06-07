@@ -1,4 +1,4 @@
-name: rebuild
+name: rebuild-${{ github.event.inputs.REPO }}
 
 on:
   workflow_dispatch:
