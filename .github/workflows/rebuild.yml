@@ -26,6 +26,7 @@ permissions: read-all
 
 jobs:
   integration-test:
+    name: rebuild-${{ github.event.inputs.REPO }}
     permissions:
       contents: read
     runs-on: ubuntu-latest
