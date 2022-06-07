@@ -1,4 +1,4 @@
-name: rebuild-${{ github.event.inputs.REPO }}
+name: rebuild
 
 on:
   workflow_dispatch:
@@ -42,7 +42,8 @@ jobs:
       with:
         go-version: ${{ github.event.inputs.GO_VERSION }}
         
-    - run: ${{ github.event.inputs.COMMAND }}
+    - name: rebuild-${{ github.event.inputs.REPO }}
+      run: ${{ github.event.inputs.COMMAND }}
     - run: | 
         shasum -a256 ${{ github.event.inputs.OUTPUT_FILE }} > checksum.txt
         sha=($(shasum -a256 ${{ github.event.inputs.OUTPUT_FILE }}))
