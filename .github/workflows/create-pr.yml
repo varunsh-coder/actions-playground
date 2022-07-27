@@ -3,13 +3,14 @@ name: create pr
 on:      
  workflow_dispatch:
 
-permissions: read-all
+permissions:  # added using https://github.com/step-security/secure-workflows
+  contents: read
 
 jobs:
   create-pr:
     permissions:
-      contents: write # for peter-evans/create-pull-request to create branch
-      pull-requests: write # for peter-evans/create-pull-request to create a PR
+      contents: write  # for peter-evans/create-pull-request to create branch
+      pull-requests: write  # for peter-evans/create-pull-request to create a PR
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
