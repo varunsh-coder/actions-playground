@@ -13,9 +13,10 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-      - uses: step-security/get-mfa-secrets@main
+      - uses: step-security/get-mfa-secrets@add-slack
         id: get-otp
         with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           secrets: |
             otp
       - run: | 
