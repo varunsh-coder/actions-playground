@@ -27,7 +27,7 @@ jobs:
           persist-credentials: false
 
       - name: "Run analysis"
-        uses: varunsh-coder/scorecard-action@main # v1.0.4
+        uses: varunsh-coder/scorecard-action@test # v1.0.4
         with:
           results_file: results.sarif
           results_format: sarif
