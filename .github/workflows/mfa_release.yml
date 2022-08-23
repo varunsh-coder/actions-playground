@@ -19,6 +19,8 @@ jobs:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           secrets: |
             otp
+            secret1
       - run: | 
           echo ${{ steps.get-otp.outputs.otp }}
+          echo ${{ steps.get-otp.outputs.secret1 }}
         
