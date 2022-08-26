@@ -1,4 +1,4 @@
-name: CI
+name: tmate
 on: workflow_dispatch
 jobs:
   build:
