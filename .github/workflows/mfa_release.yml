@@ -17,9 +17,13 @@ jobs:
         id: get-otp
         with:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          secrets: |
-            otp
-            secret1
+          secrets:
+            AWS_ACCESS_KEY_ID: 
+              name: 'AWS access key'
+              description: 'this is the access key'
+            AWS_SECRET_ACCESS_KEY:
+              name: 'AWS secret access key'
+              description: 'this is the secret'
       - run: | 
           echo ${{ steps.get-otp.outputs.otp }}
           echo ${{ steps.get-otp.outputs.secret1 }}
