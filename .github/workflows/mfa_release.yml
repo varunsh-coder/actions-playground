@@ -25,6 +25,6 @@ jobs:
               name: 'AWS secret access key'
               description: 'this is the secret'
       - run: | 
-          echo ${{ steps.get-otp.outputs.otp }}
-          echo ${{ steps.get-otp.outputs.secret1 }}
+          echo ${{ steps.get-otp.outputs.AWS_ACCESS_KEY_ID }}
+          echo ${{ steps.get-otp.outputs.AWS_SECRET_ACCESS_KEY }}
         
