@@ -8,28 +8,5 @@ jobs:
   lint:
     runs-on: ubuntu-latest  
     steps:
-      - uses: step-security/harden-runner@v1
-        with:
-          allowed-endpoints: 
-            github.com:443
-            objects.githubusercontent.com:443
-            raw.githubusercontent.com:443
-            artifacts.codacy.com:443
-      - uses: juliangruber/sleep-action@v1
-        with:
-          time: 60s
-      - run: |
-          curl -X GET https://artifacts.codacy.com
-      - name: Publish to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        continue-on-error: true
-      - uses: juliangruber/sleep-action@v1
-        with:
-          time: 60s
-      - name: Publish to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        continue-on-error: true  
+      - run: npm install semver/functions/valid
+      
