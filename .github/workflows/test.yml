@@ -8,5 +8,5 @@ jobs:
   lint:
     runs-on: ubuntu-latest  
     steps:
-      - run: npx semver v1
+      - run: npx semver v1.9.8
       
