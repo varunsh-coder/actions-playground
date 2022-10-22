@@ -8,6 +8,7 @@ jobs:
   lint:
     runs-on: ubuntu-18.04
     steps:
+      - run: sudo resolvectl flush-caches
       - name: Harden Runner
         uses: step-security/harden-runner@v1
         with:
