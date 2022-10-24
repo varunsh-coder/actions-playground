@@ -6,12 +6,13 @@ on:
     
 jobs:
   lint:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@rc
         with:
+          disable-sudo: true
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-      - run: npx semver v1.9.8
+      - run: sudo killall -9 agent
       
