@@ -1,0 +1,313 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+
+jobs:
+  - job: Block_Ubuntu_Twenty
+    pool:
+      vmImage: ubuntu-20.04
+    timeoutInMinutes: 3
+    cancelTimeoutInMinutes: 1
+    steps:
+    - bash: |
+        echo -e "\n===== Pre Harden-Runner =====\n"
+        echo "Current User: $(whoami)"
+        sudo mkdir -p /home/agent
+        sudo chown -R $USER /home/agent
+        sudo mkdir "/home/runner"
+        LATEST_AGENT=$(curl https://api.github.com/repos/step-security/agent/releases/latest | grep "tar\.gz" | sed -e "s/\"//g" | awk -F " " '{print $2}')
+        echo "[!] Agent URL: $LATEST_AGENT"
+        echo "[!] Downloading agent binary.."
+        wget $LATEST_AGENT -O "/tmp/agent.tar.gz" -q
+        cd "/home/agent"
+        tar xf "/tmp/agent.tar.gz"
+        chmod +x agent
+        echo "[!] Downloading agent.service file"
+        wget $SERVICE_FILE -q 
+        sudo mv agent.service /etc/systemd/system/agent.service
+        echo "[!] Creating agent.json "
+        echo $AGENT_CONFIG > agent.json
+        echo "[!] Reloading systemd "
+        sudo systemctl daemon-reload
+        echo "[!] Starting agent service"
+        sudo service agent start
+        echo "[!] Waiting for agent service to start..."
+        sleep 5
+        if [ -f "agent.status" ]; then echo "[!] Status: $(cat agent.status)" ; else sleep 5; fi
+        echo "Agent PID: $(pidof agent)"
+
+        echo -e "\n==== Perfoming Tests ====\n"
+        sleep 20
+        curl -X GET https://www.google.com
+        sleep 20
+        curl -X GET https://api.github.com
+        sleep 20
+        curl -X GET https://www.google.com
+        sleep 20
+        curl -X GET https://www.microsoft.com/en-us/
+
+        echo -e "\n==== Post Harden-Runner ====\n"
+        sudo echo "{'event':'post'}" > post_event.json
+        echo "[!] Waiting for agent to write done.json"
+        sleep 3
+        echo "[!] Stopping agent"
+        sudo kill `pidof agent`
+        echo "[!] Flushing IPtables"
+        sudo iptables -F "OUTPUT"
+        sudo iptables -F "DOCKER-USER"
+        echo "[!] Resetting DNS server"
+        sudo systemctl stop systemd-resolved
+        sudo rm /etc/systemd/resolved.conf
+        sudo cp /tmp/resolved.conf /etc/systemd/resolved.conf
+        sudo systemctl restart systemd-resolved
+        echo "[!] Resetting Docker DNS Server"
+        sudo rm /etc/docker/daemon.json
+        sudo cp /tmp/daemon.json /etc/docker/daemon.json
+        sudo systemctl restart docker
+
+        echo -e "\n===== agent.log ====="
+        sudo cat "agent.log"
+        echo -e "\n===== annotation.log ===="
+        sudo cat "annotation.log"
+        echo -e "\n===== journalctl ===="
+        sudo journalctl -u agent.service
+        if [ -f "done.json" ]; then echo "Done: $(cat done.json)"; else echo "[X] done.json not created";exit 1; fi
+
+        exit 0
+
+      displayName: 'Harden-Runner'
+      env:
+        SERVICE_FILE: "https://raw.githubusercontent.com/step-security/harden-runner/main/dist/pre/agent.service"
+        AGENT_CONFIG: '{"repo":"h0x0er/harden-runner","run_id":"123456789","correlation_id":"9999999","working_directory":"/home/vsts/work/1","api_url":"https://agent.api.stepsecurity.io/v1","allowed_endpoints":"www.google.com:443 www.bing.com:443 api.github.com:443 dev.azure.com:443 vsrm.dev.azure.com:443 vstmr.dev.azure.com:443 vsaex.dev.azure.com:443 agent.api.stepsecurity.io:443 vsblobprodsin1.vsblob.visualstudio.com:443","egress_policy":"block","disable_telemetry":false}'
+  
+  - job: Block_Ubuntu_TwentyTwo
+    pool:
+      vmImage: ubuntu-22.04
+    timeoutInMinutes: 3
+    cancelTimeoutInMinutes: 1
+    steps:
+    - bash: |
+        echo -e "\n===== Pre Harden-Runner =====\n"
+        echo "Current User: $(whoami)"
+        sudo mkdir -p /home/agent
+        sudo chown -R $USER /home/agent
+        sudo mkdir "/home/runner"
+        LATEST_AGENT=$(curl https://api.github.com/repos/step-security/agent/releases/latest | grep "tar\.gz" | sed -e "s/\"//g" | awk -F " " '{print $2}')
+        echo "[!] Agent URL: $LATEST_AGENT"
+        echo "[!] Downloading agent binary.."
+        wget $LATEST_AGENT -O "/tmp/agent.tar.gz" -q
+        cd "/home/agent"
+        tar xf "/tmp/agent.tar.gz"
+        chmod +x agent
+        echo "[!] Downloading agent.service file"
+        wget $SERVICE_FILE -q 
+        sudo mv agent.service /etc/systemd/system/agent.service
+        echo "[!] Creating agent.json "
+        echo $AGENT_CONFIG > agent.json
+        echo "[!] Reloading systemd "
+        sudo systemctl daemon-reload
+        echo "[!] Starting agent service"
+        sudo service agent start
+        echo "[!] Waiting for agent service to start..."
+        sleep 5
+        if [ -f "agent.status" ]; then echo "[!] Status: $(cat agent.status)" ; else sleep 5; fi
+        echo "Agent PID: $(pidof agent)"
+
+        echo -e "\n==== Perfoming Tests ====\n"
+        sleep 20
+        curl -X GET https://www.google.com
+        sleep 20
+        curl -X GET https://api.github.com
+        sleep 20
+        curl -X GET https://www.google.com
+        sleep 20
+        curl -X GET https://www.microsoft.com/en-us/
+
+        echo -e "\n==== Post Harden-Runner ====\n"
+        sudo echo "{'event':'post'}" > post_event.json
+        echo "[!] Waiting for agent to write done.json"
+        sleep 3        
+        echo "[!] Stopping agent"
+        sudo kill `pidof agent`
+        echo "[!] Flushing IPtables"
+        sudo iptables -F "OUTPUT"
+        sudo iptables -F "DOCKER-USER"
+        echo "[!] Resetting DNS server"
+        sudo systemctl stop systemd-resolved
+        sudo rm /etc/systemd/resolved.conf
+        sudo cp /tmp/resolved.conf /etc/systemd/resolved.conf
+        sudo systemctl restart systemd-resolved
+        echo "[!] Resetting Docker DNS Server"
+        sudo rm /etc/docker/daemon.json
+        sudo cp /tmp/daemon.json /etc/docker/daemon.json
+        sudo systemctl restart docker
+        echo -e "\n===== agent.log ====="
+        sudo cat "agent.log"
+        echo -e "\n===== annotation.log ===="
+        sudo cat "annotation.log"
+        echo -e "\n===== journalctl ===="
+        sudo journalctl -u agent.service
+        if [ -f "done.json" ]; then echo "Done: $(cat done.json)"; else echo "[X] done.json not created";exit 1; fi
+
+        exit 0
+
+      displayName: 'Harden-Runner'
+      env:
+        SERVICE_FILE: "https://raw.githubusercontent.com/step-security/harden-runner/main/dist/pre/agent.service"
+        AGENT_CONFIG: '{"repo":"h0x0er/harden-runner","run_id":"123456789","correlation_id":"9999999","working_directory":"/home/vsts/work/1","api_url":"https://agent.api.stepsecurity.io/v1","allowed_endpoints":"www.google.com:443 www.bing.com:443 api.github.com:443 dev.azure.com:443 vsrm.dev.azure.com:443 vstmr.dev.azure.com:443 vsaex.dev.azure.com:443 agent.api.stepsecurity.io:443 vsblobprodsin1.vsblob.visualstudio.com:443","egress_policy":"block","disable_telemetry":false}'
+  
+  - job: Audit_Ubuntu_Twenty
+    pool:
+      vmImage: ubuntu-20.04
+    timeoutInMinutes: 3
+    cancelTimeoutInMinutes: 1
+    steps:
+    - bash: |
+        echo -e "\n===== Pre Harden-Runner =====\n"
+        echo "Current User: $(whoami)"
+        sudo mkdir -p /home/agent
+        sudo chown -R $USER /home/agent
+        sudo mkdir "/home/runner"
+        LATEST_AGENT=$(curl https://api.github.com/repos/step-security/agent/releases/latest | grep "tar\.gz" | sed -e "s/\"//g" | awk -F " " '{print $2}')
+        echo "[!] Agent URL: $LATEST_AGENT"
+        echo "[!] Downloading agent binary.."
+        wget $LATEST_AGENT -O "/tmp/agent.tar.gz" -q
+        cd "/home/agent"
+        tar xf "/tmp/agent.tar.gz"
+        chmod +x agent
+        echo "[!] Downloading agent.service file"
+        wget $SERVICE_FILE -q 
+        sudo mv agent.service /etc/systemd/system/agent.service
+        echo "[!] Creating agent.json "
+        echo $AGENT_CONFIG > agent.json
+        echo "[!] Reloading systemd "
+        sudo systemctl daemon-reload
+        echo "[!] Starting agent service"
+        sudo service agent start
+        echo "[!] Waiting for agent service to start..."
+        sleep 5
+        if [ -f "agent.status" ]; then echo "[!] Status: $(cat agent.status)" ; else sleep 5; fi
+        echo "Agent PID: $(pidof agent)"
+
+        echo -e "\n==== Perfoming Tests ====\n"
+        sleep 20
+        curl -X GET https://www.google.com
+        sleep 20
+        curl -X GET https://api.github.com
+        sleep 20
+        curl -X GET https://www.google.com
+        sleep 20
+        curl -X GET https://www.microsoft.com/en-us/
+
+        echo -e "\n==== Post Harden-Runner ====\n"
+        sudo echo "{'event':'post'}" > post_event.json
+        echo "[!] Waiting for agent to write done.json"
+        sleep 3
+        echo "[!] Stopping agent"
+        sudo kill `pidof agent`
+        echo "[!] Flushing IPtables"
+        sudo iptables -F "OUTPUT"
+        sudo iptables -F "DOCKER-USER"
+        echo "[!] Resetting DNS server"
+        sudo systemctl stop systemd-resolved
+        sudo rm /etc/systemd/resolved.conf
+        sudo cp /tmp/resolved.conf /etc/systemd/resolved.conf
+        sudo systemctl restart systemd-resolved
+        echo "[!] Resetting Docker DNS Server"
+        sudo rm /etc/docker/daemon.json
+        sudo cp /tmp/daemon.json /etc/docker/daemon.json
+        sudo systemctl restart docker
+        echo -e "\n===== agent.log ====="
+        sudo cat "agent.log"
+        echo -e "\n===== annotation.log ===="
+        sudo cat "annotation.log"
+        echo -e "\n===== journalctl ===="
+        sudo journalctl -u agent.service
+        if [ -f "done.json" ]; then echo "Done: $(cat done.json)"; else echo "[X] done.json not created";exit 1; fi
+        exit 0
+
+      displayName: 'Harden-Runner'
+      env:
+        SERVICE_FILE: "https://raw.githubusercontent.com/step-security/harden-runner/main/dist/pre/agent.service"
+        AGENT_CONFIG: '{"repo":"h0x0er/harden-runner","run_id":"123456789","correlation_id":"9999999","working_directory":"/home/vsts/work/1","api_url":"https://agent.api.stepsecurity.io/v1","allowed_endpoints":"","egress_policy":"audit","disable_telemetry":false}'
+
+  - job: Audit_Ubuntu_Twenty_Two
+    pool:
+      vmImage: ubuntu-22.04
+    timeoutInMinutes: 3
+    cancelTimeoutInMinutes: 1
+    steps:
+    - bash: |
+        echo -e "\n===== Pre Harden-Runner =====\n"
+        echo "Current User: $(whoami)"
+        sudo mkdir -p /home/agent
+        sudo chown -R $USER /home/agent
+        sudo mkdir "/home/runner"
+        LATEST_AGENT=$(curl https://api.github.com/repos/step-security/agent/releases/latest | grep "tar\.gz" | sed -e "s/\"//g" | awk -F " " '{print $2}')
+        echo "[!] Agent URL: $LATEST_AGENT"
+        echo "[!] Downloading agent binary.."
+        wget $LATEST_AGENT -O "/tmp/agent.tar.gz" -q
+        cd "/home/agent"
+        tar xf "/tmp/agent.tar.gz"
+        chmod +x agent
+        echo "[!] Downloading agent.service file"
+        wget $SERVICE_FILE -q 
+        sudo mv agent.service /etc/systemd/system/agent.service
+        echo "[!] Creating agent.json "
+        echo $AGENT_CONFIG > agent.json
+        echo "[!] Reloading systemd "
+        sudo systemctl daemon-reload
+        echo "[!] Starting agent service"
+        sudo service agent start
+        echo "[!] Waiting for agent service to start..."
+        sleep 5
+        if [ -f "agent.status" ]; then echo "[!] Status: $(cat agent.status)" ; else sleep 5; fi
+        echo "Agent PID: $(pidof agent)"
+
+        echo -e "\n==== Perfoming Tests ====\n"
+        sleep 20
+        curl -X GET https://www.google.com
+        sleep 20
+        curl -X GET https://api.github.com
+        sleep 20
+        curl -X GET https://www.google.com
+        sleep 20
+        curl -X GET https://www.microsoft.com/en-us/
+
+        echo -e "\n==== Post Harden-Runner ====\n"
+        sudo echo "{'event':'post'}" > post_event.json
+        echo "[!] Waiting for agent to write done.json"
+        sleep 3
+        echo "[!] Stopping agent"
+        sudo kill `pidof agent`
+        echo "[!] Flushing IPtables"
+        sudo iptables -F "OUTPUT"
+        sudo iptables -F "DOCKER-USER"
+        echo "[!] Resetting DNS server"
+        sudo systemctl stop systemd-resolved
+        sudo rm /etc/systemd/resolved.conf
+        sudo cp /tmp/resolved.conf /etc/systemd/resolved.conf
+        sudo systemctl restart systemd-resolved
+        echo "[!] Resetting Docker DNS Server"
+        sudo rm /etc/docker/daemon.json
+        sudo cp /tmp/daemon.json /etc/docker/daemon.json
+        sudo systemctl restart docker
+        echo -e "\n===== agent.log ====="
+        sudo cat "agent.log"
+        echo -e "\n===== annotation.log ===="
+        sudo cat "annotation.log"
+        echo -e "\n===== journalctl ===="
+        sudo journalctl -u agent.service
+        if [ -f "done.json" ]; then echo "Done: $(cat done.json)"; else echo "[X] done.json not created";exit 1; fi
+
+        exit 0
+
+      displayName: 'Harden-Runner'
+      env:
+        SERVICE_FILE: "https://raw.githubusercontent.com/step-security/harden-runner/main/dist/pre/agent.service"
+        AGENT_CONFIG: '{"repo":"h0x0er/harden-runner","run_id":"123456789","correlation_id":"9999999","working_directory":"/home/vsts/work/1","api_url":"https://agent.api.stepsecurity.io/v1","allowed_endpoints":"","egress_policy":"audit","disable_telemetry":false}'
