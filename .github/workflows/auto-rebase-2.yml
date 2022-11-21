@@ -20,6 +20,6 @@ jobs:
     - uses: actions/checkout@629c2de402a417ea7690ca6ce3f33229e27606a5
       with:
        fetch-depth: 0
-    - uses: ljharb/rebase@6ca8681dc61847335eb68c8e43f4becb0911c091
+    - uses: ljharb/rebase@3f30d8c115145dcc562f01582f59fbeefe77c707
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
