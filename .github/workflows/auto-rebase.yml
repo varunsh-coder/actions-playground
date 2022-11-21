@@ -20,6 +20,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
       - name: Automatic Rebase
-        uses: cirrus-actions/rebase@7cea12ac34ab078fa37e87798d8986185afa7bf2
+        uses: cirrus-actions/rebase@6e572f08c244e2f04f9beb85a943eb618218714d
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
