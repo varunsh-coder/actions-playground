@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@v1
+        uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34 # v1.5.0
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
@@ -19,8 +19,8 @@ jobs:
       - run: cat ~/resolved.txt
       #- run: sudo resolvectl flush-caches
       #- run: sudo systemd-resolve --statistics
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout@e2f20e631ae6d7dd3b768f56a5d2af784dd54791 # v2.5.0
+      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # v2.1.7
         with:
           path: | 
             readme.md
@@ -30,8 +30,8 @@ jobs:
       - run: sudo ip6tables -L -n
       - run: mkdir -p path/to/artifact
       - run: echo hello > path/to/artifact/world.txt
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # v2.3.1
         with:
           name: my-artifact
           path: path/to/artifact/world.txt
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@f023be2c48cc18debc3bacd34cb396e0295e2869 # v2.1.0
