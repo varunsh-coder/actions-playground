@@ -2,8 +2,14 @@ name: Greetings
 
 on: [pull_request_target, issues, workflow_dispatch]
 
+permissions:  # added using https://github.com/step-security/secure-workflows
+  contents: read
+
 jobs:
   greeting:
+    permissions:
+      issues: write  # for actions/first-interaction to comment on first issue
+      pull-requests: write  # for actions/first-interaction to comment on first PR
     runs-on: ubuntu-latest
     
     steps:
