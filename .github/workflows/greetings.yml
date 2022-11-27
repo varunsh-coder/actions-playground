@@ -2,12 +2,23 @@ name: Greetings
 
 on: [pull_request_target, issues, workflow_dispatch]
 
+permissions:  # added using https://github.com/step-security/secure-workflows
+  contents: read
+
 jobs:
   greeting:
+    permissions:
+      issues: write  # for actions/first-interaction to comment on first issue
+      pull-requests: write  # for actions/first-interaction to comment on first PR
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/first-interaction@v1
+    - name: Harden Runner
+      uses: step-security/harden-runner@ebacdc22ef6c2cfb85ee5ded8f2e640f4c776dd5 # v2.0.0
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+    - uses: actions/first-interaction@1d8459ca65b335265f1285568221e229d45a995e # v1.1.1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-message: "Message that will be displayed on users' first issue"
