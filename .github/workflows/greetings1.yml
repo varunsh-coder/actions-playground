@@ -2,6 +2,9 @@ name: Greetings
 
 on: [pull_request_target, issues]
 
+permissions:  # added using https://github.com/step-security/secure-workflows
+  contents: read
+
 jobs:
   greeting:
     runs-on: ubuntu-latest
