@@ -13,18 +13,13 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-      - uses: step-security/wait-for-secrets@update-link-format
+      - uses: step-security/wait-for-secrets@main
         id: get-otp
         with:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           secrets: |
-            AWS_ACCESS_KEY_ID: 
-              name: 'AWS access key'
-              description: 'this is the access key'
-            AWS_SECRET_ACCESS_KEY:
-              name: 'AWS secret access key'
-              description: 'this is the secret'
+            OTP: 
+              name: 'OTP to publish package'
+              description: 'OTP from authenticator app'
       - run: | 
-          echo ${{ steps.get-otp.outputs.AWS_ACCESS_KEY_ID }}
-          echo ${{ steps.get-otp.outputs.AWS_SECRET_ACCESS_KEY }}
-        
+          echo ${{ steps.get-otp.outputs.OTP }}
