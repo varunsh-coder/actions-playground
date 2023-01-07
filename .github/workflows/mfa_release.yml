@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-      - uses: step-security/wait-for-secrets@main
+      - uses: step-security/wait-for-secrets@8912bd03b1192896b731401cab00c48d53fb994a
         id: get-otp
         with:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
