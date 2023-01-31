@@ -1,6 +1,9 @@
 name: HardenRunner Test
 on: 
   workflow_dispatch
+permissions:
+  contents: read
+
 jobs:
   block22:
     runs-on: ubuntu-22.04

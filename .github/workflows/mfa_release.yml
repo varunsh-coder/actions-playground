@@ -2,6 +2,9 @@ name: Publish Package to npmjs
 on:
   workflow_dispatch
   
+permissions:
+  contents: read
+
 jobs:
   build:
     permissions:
