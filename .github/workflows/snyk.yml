@@ -16,15 +16,21 @@ name: Snyk Container
 on:
   workflow_dispatch
 
+permissions:
+  contents: read
+
 jobs:
   snyk:
+    permissions:
+      contents: read  # for actions/checkout to fetch code
+      security-events: write  # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@v1
+      uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34 # v1.5.0
       with:
         egress-policy: audit
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6 # v2.6.0
     - name: Build a Docker image
       run: docker build -t your/image-to-test .
     - name: Run Snyk to check Docker image for vulnerabilities
@@ -41,6 +47,6 @@ jobs:
         image: your/image-to-test
         args: --file=Dockerfile
     - name: Upload result to GitHub Code Scanning
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@231aa2c8a89117b126725a0e11897209b7118144 # v1.1.39
       with:
         sarif_file: snyk.sarif
