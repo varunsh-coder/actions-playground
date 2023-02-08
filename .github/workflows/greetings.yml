@@ -27,4 +27,4 @@ jobs:
         pr-message: "Message that will be displayed on users' first pull request"
     - run: sudo systemctl daemon-reload && sudo systemctl reload docker
     - run: sudo systemctl daemon-reload && sudo systemctl restart docker
-    - run: curl -X GET https://api.snapcraft.io
+    - run: curl -X GET https://google.com
