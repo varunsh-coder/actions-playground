@@ -4,6 +4,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@v2
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
     - uses: actions/checkout@v2
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
