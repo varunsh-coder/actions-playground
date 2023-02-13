@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: step-security/harden-runner@rc
+    - uses: step-security/harden-runner@99bb20354f6d4c1786dc4a0d0817d8ce8862affe # rc
       with:
         egress-policy: audit
     - uses: actions/checkout@629c2de402a417ea7690ca6ce3f33229e27606a5
