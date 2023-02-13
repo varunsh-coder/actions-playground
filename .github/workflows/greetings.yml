@@ -14,7 +14,7 @@ jobs:
     
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@int
+      uses: step-security/harden-runner@d8b192edce5dfee4b4af7a1575f9ef0802208694 # int
       with:
         egress-policy: block
         allowed-endpoints: >
