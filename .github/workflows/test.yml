@@ -7,6 +7,9 @@ on:
   workflow_dispatch  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+permissions:
+  contents: read
+
 jobs:
   # This workflow contains a single job called "build"
   build:
@@ -17,14 +20,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Harden Runner
-        uses: step-security/harden-runner@int
+        uses: step-security/harden-runner@d8b192edce5dfee4b4af7a1575f9ef0802208694 # int
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
             github.com:443
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
@@ -46,14 +49,14 @@ jobs:
       steps:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
         - name: Harden Runner
-          uses: step-security/harden-runner@int
+          uses: step-security/harden-runner@d8b192edce5dfee4b4af7a1575f9ef0802208694 # int
           with:
             disable-sudo: true
             egress-policy: block
             allowed-endpoints: >
               github.com:443
 
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
         # Runs a single command using the runners shell
         - name: Run a one-line script
