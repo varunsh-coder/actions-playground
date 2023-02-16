@@ -26,5 +26,11 @@ jobs:
       run: docker run -e GITHUB_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }} gcr.io/openssf/scorecard:stable --show-details --repo=https://github.com/ossf/scorecard
     - run: docker run -e GITHUB_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }} gcr.io/openssf/scorecard:stable --show-details --repo=https://github.com/ossf/scorecard      
       if: ${{ failure() }}
+    - run: docker run -e GITHUB_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }} gcr.io/openssf/scorecard:stable --show-details --repo=https://github.com/ossf/scorecard      
+      if: ${{ failure() }}
+    - run: docker run -e GITHUB_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }} gcr.io/openssf/scorecard:stable --show-details --repo=https://github.com/ossf/scorecard      
+      if: ${{ failure() }}
+    - run: docker run -e GITHUB_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }} gcr.io/openssf/scorecard:stable --show-details --repo=https://github.com/ossf/scorecard      
+      if: ${{ failure() }}
     - run: sudo iptables -L -v -n 
       if: ${{ failure() }}
