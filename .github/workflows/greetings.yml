@@ -1,4 +1,4 @@
-name: Greetings
+name: Policy demo
 
 on: [pull_request_target, issues, workflow_dispatch]
 
@@ -14,17 +14,14 @@ jobs:
     
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@int
+      uses: step-security/harden-runner@rc-4
       with:
-        egress-policy: block
-        allowed-endpoints: >
-          api.github.com:443
+        policy: policy1
 
     - uses: actions/first-interaction@1d8459ca65b335265f1285568221e229d45a995e # v1.1.1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-message: "Message that will be displayed on users' first issue"
         pr-message: "Message that will be displayed on users' first pull request"
-    - run: sudo systemctl daemon-reload && sudo systemctl reload docker
-    - run: sudo systemctl daemon-reload && sudo systemctl restart docker
+
     - run: curl -X GET https://google.com
