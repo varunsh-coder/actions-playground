@@ -1,6 +1,6 @@
 name: Policy demo
 
-on: [pull_request_target, issues, workflow_dispatch]
+on: [push, issues, workflow_dispatch]
 
 permissions:  # added using https://github.com/step-security/secure-workflows
   contents: read
