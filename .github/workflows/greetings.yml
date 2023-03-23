@@ -6,7 +6,7 @@ permissions:  # added using https://github.com/step-security/secure-workflows
   contents: read
 
 jobs:
-  greeting:
+  harden-runner-demo:
     permissions:
       id-token: write
     runs-on: ubuntu-latest
