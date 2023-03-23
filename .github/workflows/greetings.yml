@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@policy-preview
+      uses: step-security/harden-runner@v2
       with:
         policy: policy1
 
