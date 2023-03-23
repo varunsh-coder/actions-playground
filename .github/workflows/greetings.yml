@@ -10,6 +10,7 @@ jobs:
     permissions:
       issues: write  # for actions/first-interaction to comment on first issue
       pull-requests: write  # for actions/first-interaction to comment on first PR
+      id-token: write
     runs-on: ubuntu-latest
     
     steps:
