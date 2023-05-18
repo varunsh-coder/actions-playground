@@ -28,4 +28,4 @@ jobs:
       - name: Uncommitted change
         run: date +%s > report.txt
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@67df31e08a133c6a77008b89689677067fef169e
+        uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666
