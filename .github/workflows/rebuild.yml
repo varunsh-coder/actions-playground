@@ -39,7 +39,7 @@ jobs:
          
     
     - name: Set up Go 
-      uses: actions/setup-go@424fc82d43fa5a37540bae62709ddcc23d9520d4
+      uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe
       with:
         go-version: ${{ github.event.inputs.GO_VERSION }}
         
